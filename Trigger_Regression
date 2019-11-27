@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent Asil-sv-java6
     stages {
         stage('---ifconfig---') {
             steps {
