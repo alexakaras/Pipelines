@@ -1,12 +1,12 @@
 pipeline {
     agent { label 'Asil-sv-java6' }
+    parameters{
+        string(name: 'Branch')
+        string(name: 'Version')
+        string(name: 'VersionPath')
+        string(name: 'TriggerId')
+    }
     stages {
-        parameters{
-            string(name: 'Branch')
-            string(name: 'Version')
-            string(name: 'VersionPath')
-            string(name: 'TriggerId')
-        }
         stage('--Copy Version--') {
             def version = params.Version.replace(".","_")
             def sourceFolder = params.VersionPath
