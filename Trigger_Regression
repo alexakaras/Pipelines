@@ -3,7 +3,7 @@ def sourceFolder = ''
 def destFolder = ''
 def command = ''
 
-node {
+pipeline {
     agent { label 'Asil-sv-java6' }
     parameters{
         string(name: 'Branch')
