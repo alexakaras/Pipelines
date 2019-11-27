@@ -3,12 +3,14 @@ pipeline {
     stages {
         stage('---ifconfig---') {
             steps {
-                bat "ifconfig"
+                bat "ipconfig"
             }
         }
         stage('--Copy--') {
             steps {
-                bat "Xcopy \\FS4\Projects\Development\Internal\Builds\17.00\14_17_00_808\release\enodeb.14_17_00_808.enc \\192.168.60.252\sftp\upload\enodeb.14_17_00_808.enc /syq"
+                def src = new File('\\FS4\Projects\Development\Internal\Builds\17.00\14_17_00_808\release\enodeb.14_17_00_808.enc')
+                def dest = new File('\\192.168.60.252\sftp\upload\enodeb.14_17_00_808.enc')
+                dest.write(src.text)
             }
         }
         stage('--Verify--') {
