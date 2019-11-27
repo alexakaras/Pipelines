@@ -13,23 +13,24 @@ pipeline {
     }
     stages {
         stage('--Copy Version--') {
-
-            script{
-                version = params.Version.replace(".","_")
-                sourceFolder = params.VersionPath
-                destFolder = '\\\\192.168.60.252\\sftp\\upload'
-                command = 'xcopy ' + sourceFolder + '\\*' + version + '* ' + destFolder + ' /syq'
-                println command
-                def retVal = bat (script: command, returnStdout: true)
-                println retVal
-            }
-
-            when{
-                expression { retVal.contains('copied') }
-            }
             steps {
-                 echo 'Files copied'
+                script{
+                    version = params.Version.replace(".","_")
+                    sourceFolder = params.VersionPath
+                    destFolder = '\\\\192.168.60.252\\sftp\\upload'
+                    command = 'xcopy ' + sourceFolder + '\\*' + version + '* ' + destFolder + ' /syq'
+                    println command
+                    def retVal = bat (script: command, returnStdout: true)
+                    println retVal
+                }
+                when{
+                    expression { retVal.contains('copied') }
+                }
+                step{
+                    echo 'Files copied'
+                }
             }
         }
     }
 }
+
