@@ -1,3 +1,7 @@
+def version = ''
+def sourceFolder = ''
+def destFolder = ''
+def command = ''
 pipeline {
     agent { label 'Asil-sv-java6' }
     parameters{
@@ -8,13 +12,15 @@ pipeline {
     }
     stages {
         stage('--Copy Version--') {
-            def version = params.Version.replace(".","_")
-            def sourceFolder = params.VersionPath
-            def destFolder = '\\\\192.168.60.252\\sftp\\upload'
-            def command = 'xcopy ${sourceFolder}/*' + version + ' ' + destFolder + ' /syq'
             steps {
+                script{
+                    version = params.Version.replace(".","_")
+                    sourceFolder = params.VersionPath
+                    destFolder = '\\\\192.168.60.252\\sftp\\upload'
+                    command = 'xcopy ${sourceFolder}/*' + version + ' ' + destFolder + ' /syq'
+                }
                 println command
-                bat 'xcopy ${sourceFolder}/*' + version + ' ' + destFolder + ' /syq'
+                bat command
             }
         }
     }
