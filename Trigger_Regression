@@ -40,7 +40,8 @@ pipeline {
 def runBat(String slave, String sut){
     build job: 'Run_Automation', 
     parameters: [
-        choice(name: 'SlaveName', value: slave),
+        extendedChoice(name: 'SlaveName', value: slave),
         string(name: 'SUT', value: sut)
     ]
 }
+
