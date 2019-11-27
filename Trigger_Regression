@@ -3,17 +3,17 @@ pipeline {
     stages {
         stage('---ifconfig---') {
             steps {
-                sh "ifconfig"
+                bat "ifconfig"
             }
         }
         stage('--Copy--') {
             steps {
-                sh "Xcopy \\FS4\Projects\Development\Internal\Builds\17.00\14_17_00_808\release\enodeb.14_17_00_808.enc \\192.168.60.252\sftp\upload\enodeb.14_17_00_808.enc /syq"
+                bat "Xcopy \\FS4\Projects\Development\Internal\Builds\17.00\14_17_00_808\release\enodeb.14_17_00_808.enc \\192.168.60.252\sftp\upload\enodeb.14_17_00_808.enc /syq"
             }
         }
         stage('--Verify--') {
             steps {
-                sh "whoami"
+                bat "whoami"
             }
         }
     }
