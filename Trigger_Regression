@@ -2,7 +2,7 @@ def version = ''
 def sourceFolder = ''
 def destFolder = ''
 def command = ''
-
+def retVal = ''
 pipeline {
     agent { label 'Asil-sv-java6' }
     parameters{
@@ -20,7 +20,7 @@ pipeline {
                     destFolder = '\\\\192.168.60.252\\sftp\\upload'
                     command = 'xcopy ' + sourceFolder + '\\*' + version + '* ' + destFolder + ' /syq'
                     println command
-                    def retVal = bat (script: command, returnStdout: true)
+                    retVal = bat (script: command, returnStdout: true)
                     println retVal
                 }
             }
