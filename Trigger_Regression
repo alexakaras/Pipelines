@@ -23,14 +23,15 @@ pipeline {
                     def retVal = bat (script: command, returnStdout: true)
                     println retVal
                 }
-                when{
-                    expression { retVal.contains('copied') }
-                }
-                step{
-                    echo 'Files copied'
-                }
+            }
+        }
+        stage('--Run BAT--'){
+            when{
+                expression { retVal.contains('copied') }
+            }
+            steps{
+                echo 'Files copied'
             }
         }
     }
 }
-
