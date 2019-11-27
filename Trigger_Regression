@@ -1,5 +1,5 @@
 pipeline {
-    agent Asil-sv-java6
+    agent { label 'Asil-sv-java6' }
     stages {
         stage('---ifconfig---') {
             steps {
