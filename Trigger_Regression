@@ -2,7 +2,8 @@ def version = ''
 def sourceFolder = ''
 def destFolder = ''
 def command = ''
-pipeline {
+
+node {
     agent { label 'Asil-sv-java6' }
     parameters{
         string(name: 'Branch')
@@ -17,10 +18,10 @@ pipeline {
                     version = params.Version.replace(".","_")
                     sourceFolder = params.VersionPath
                     destFolder = '\\\\192.168.60.252\\sftp\\upload'
-                    command = 'xcopy ' + sourceFolder + '/*' + version + ' ' + destFolder + ' /syq'
+                    command = 'xcopy ' + sourceFolder + '\\*' + version + '* ' + destFolder + ' /syq'
                     println command
                 }                
-                bat command
+                def retVal = bat (script: command, returnStdout: true)
             }
         }
     }
