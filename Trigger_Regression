@@ -13,9 +13,8 @@ pipeline {
             def destFolder = '\\\\192.168.60.252\\sftp\\upload'
             def command = 'xcopy ${sourceFolder}/*' + version + ' ' + destFolder + ' /syq'
             steps {
-                    println command
-                    bat 'xcopy ${sourceFolder}/*' + version + ' ' + destFolder + ' /syq'
-                }
+                println command
+                bat 'xcopy ${sourceFolder}/*' + version + ' ' + destFolder + ' /syq'
             }
         }
     }
