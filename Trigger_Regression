@@ -13,7 +13,7 @@ pipeline {
     }
     stages {
         stage('--Copy Version--') {
-            steps {
+            when{
                 script{
                     version = params.Version.replace(".","_")
                     sourceFolder = params.VersionPath
@@ -22,7 +22,11 @@ pipeline {
                     println command
                     def retVal = bat (script: command, returnStdout: true)
                     println retVal
-                }                
+                }
+                expression { retVal.contains('copied') }
+            }
+            steps {
+                 echo 'Files copied'
             }
         }
     }
