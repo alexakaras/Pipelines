@@ -43,7 +43,9 @@ pipeline {
             }
             stages{
                 stage{
-                    parallel parallelStagesBat
+                    parallel{  
+                        parallelStagesBat
+                    } 
                 }
             }
         }
