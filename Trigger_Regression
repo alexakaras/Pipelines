@@ -29,12 +29,16 @@ pipeline {
             }
         }
         stage('-- Build runs --'){
-            node('master'){
-                build job: 'Run_Automation', 
-                parameters: [
-                    [$class: 'NodeParameterValue', name: 'SlaveName', labels: ['dshalom'], nodeEligibility: [$class: 'AllNodeEligibility']],
-                    string(name: 'SUT', value: '123')
-                ]
+            parallel{
+                stage('ddd'){
+                    node('master'){
+                        build job: 'Run_Automation', 
+                        parameters: [
+                            [$class: 'NodeParameterValue', name: 'SlaveName', labels: ['dshalom'], nodeEligibility: [$class: 'AllNodeEligibility']],
+                            string(name: 'SUT', value: '123')
+                        ]
+                    }
+                }
             }
             // when{
             //     expression { retVal.contains('copied') }
