@@ -29,23 +29,37 @@ pipeline {
             }
         }
         stage('-- Build runs --'){
-            when{
-                expression { retVal.contains('copied') }
-            }
             steps{
                 script{
                     for (element in batList) {
-                        //parallelStagesBat[element.key] = createRunBatStage(element.key, element.value)
-                        parallelStagesBat[element.key] = {
-                            build job: 'Run_Automation', 
-                            parameters: [
-                                [$class: 'NodeParameterValue', name: 'SlaveName', labels: [element.key], nodeEligibility: [$class: 'AllNodeEligibility']],
-                                string(name: 'SUT', value: element.value)
-                            ]
-                        }
+                        parallelStagesBat[element.key] = createRunBatStage(element.key, element.value)
                     }
+                }
+            }
+        }
+        stage('-- Run BAT --'){
+            when{
+                expression { retVal.contains('copied') }
+            }
+            stages{
+                stage{
                     parallel parallelStagesBat
                 }
+            }
+        }
+    }
+}
+
+@NonCPS
+def createRunBatStage(String slave, String sut){
+    return {
+        stage('BAT on ${slave}'){
+            steps{
+                build job: 'Run_Automation', 
+                parameters: [
+                    [$class: 'NodeParameterValue', name: 'SlaveName', labels: [slave], nodeEligibility: [$class: 'AllNodeEligibility']],
+                    string(name: 'SUT', value: sut)
+                ]
             }
         }
     }
