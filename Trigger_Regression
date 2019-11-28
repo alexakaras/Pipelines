@@ -43,10 +43,12 @@ pipeline {
 }
 
 def runBat(String slave, String sut){
-    node(slave){
-        build job: 'Run_Automation', 
-        parameters: [
-            string(name: 'SUT', value: sut)
-        ]
+    return {
+        node(slave){
+            build job: 'Run_Automation', 
+            parameters: [
+                string(name: 'SUT', value: sut)
+            ]
+        }
     }
 }
