@@ -29,28 +29,17 @@ pipeline {
             }
         }
         stage('-- Build runs --'){
-            parallel{
-                stage('ddd'){
-                    node('master'){
-                        build job: 'Run_Automation', 
-                        parameters: [
-                            [$class: 'NodeParameterValue', name: 'SlaveName', labels: ['dshalom'], nodeEligibility: [$class: 'AllNodeEligibility']],
-                            string(name: 'SUT', value: '123')
-                        ]
+            when{
+                expression { retVal.contains('copied') }
+            }
+            steps{
+                script{
+                    for (element in batList) {
+                        parallelStagesBat[element.key] = createRunBatStage(element.key, element.value)
                     }
+                    parallel parallelStagesBat
                 }
             }
-            // when{
-            //     expression { retVal.contains('copied') }
-            // }
-            // steps{
-            //     script{
-            //         for (element in batList) {
-            //             parallelStagesBat[element.key] = createRunBatStage(element.key, element.value)
-            //         }
-            //         parallel parallelStagesBat
-            //     }
-            // }
         }
     }
 }
@@ -59,7 +48,7 @@ pipeline {
 def createRunBatStage(String slave, String sut){
     return {
         stage('BAT on ${slave}'){
-            node('master'){
+            steps{
                 build job: 'Run_Automation', 
                 parameters: [
                     [$class: 'NodeParameterValue', name: 'SlaveName', labels: [slave], nodeEligibility: [$class: 'AllNodeEligibility']],
