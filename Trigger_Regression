@@ -43,6 +43,16 @@ pipeline {
                     }
                     
                 }
+                stage('--${UL-tde6}--'){
+                    steps{
+                        build job: 'Run_Automation', 
+                        parameters: [
+                            [$class: 'NodeParameterValue', name: 'SlaveName', labels: ['UL-tde6'], nodeEligibility: [$class: 'AllNodeEligibility']],
+                            string(name: 'SUT', value: '123')
+                        ]
+                    }
+                    
+                }
             }
             // steps{
             //     script {
