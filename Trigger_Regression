@@ -32,21 +32,46 @@ pipeline {
             when{
                 expression { retVal.contains('copied') }
             }
-            steps{
-                script {
-                    for (set in batList) {
-                        parallelStagesBat.add(createRunBatStage(set.key, set.value))
+            parallel{
+                stage('--${dshalom}--'){
+                    agent{
+                        label 'dshalom'
                     }
-                    parallel parallelStagesBat
+                    steps{
+                        build job: 'Run_Automation', 
+                        parameters: [
+                            string(name: 'SUT', value: '123')
+                        ]
+                    }
+                    
+                }
+                stage('--${UL-tde6}--'){
+                    agent{
+                        label 'UL-tde6'
+                    }
+                    steps{
+                        build job: 'Run_Automation', 
+                        parameters: [
+                            string(name: 'SUT', value: '456')
+                        ]
+                    }
+                    
                 }
             }
+            // steps{
+            //     script {
+            //         for (set in batList) {
+            //             parallelStagesBat.add(createRunBatStage(set.key, set.value))
+            //         }
+            //     }
+            // }
         }
     }
 }
 
 def createRunBatStage(String slave, String sut){
     return {
-        stage('-- Run BAT on ${slave} --'){
+        stage('--${slave}--'){
             agent{
                 label slave
             }
