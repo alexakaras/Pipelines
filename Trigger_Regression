@@ -35,7 +35,7 @@ pipeline {
             steps{
                 script {
                     for (set in batList) {
-                        parallelStagesBat['${set.key}'] = createRunBatStage(set.key, set.value))
+                        parallelStagesBat['${set.key}'] = createRunBatStage(set.key, set.value)
                     }
                     parallel parallelStagesBat
                 }
