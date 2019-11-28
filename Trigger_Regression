@@ -41,13 +41,11 @@ pipeline {
             when{
                 expression { retVal.contains('copied') }
             }
-            stages{
-                stage{
-                    parallel{  
-                        parallelStagesBat
-                    } 
+            steps{
+                parallel{  
+                    parallelStagesBat
                 }
-            }
+            }  
         }
     }
 }
