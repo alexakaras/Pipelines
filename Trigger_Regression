@@ -44,18 +44,15 @@ pipeline {
     }
 }
 
-@NonCPS
 def createRunBatStage(String slave, String sut){
     return {
-        node('master'){
-            stage('BAT on ${slave}'){
-                steps{
-                    build job: 'Run_Automation', 
-                    parameters: [
-                        [$class: 'NodeParameterValue', name: 'SlaveName', labels: [slave], nodeEligibility: [$class: 'AllNodeEligibility']],
-                        string(name: 'SUT', value: sut)
-                    ]
-                }
+        stage('BAT on ${slave}'){
+            steps{
+                build job: 'Run_Automation', 
+                parameters: [
+                    [$class: 'NodeParameterValue', name: 'SlaveName', labels: [slave], nodeEligibility: [$class: 'AllNodeEligibility']],
+                    string(name: 'SUT', value: sut)
+                ]
             }
         }
     }
