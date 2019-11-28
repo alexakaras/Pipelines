@@ -3,7 +3,7 @@ def sourceFolder = ''
 def destFolder = ''
 def command = ''
 def retVal = ''
-def batList = ['dshalom': '123', 'UL-tde6': '123']
+def batList = ['dshalom': '123']
 def parallelStagesBat = [:]
 
 pipeline {
