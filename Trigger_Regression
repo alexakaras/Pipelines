@@ -4,9 +4,8 @@ def destFolder = ''
 def command = ''
 def retVal = ''
 def batList = ['dshalom': '123', 'UL-tde6': '123']
-def parallelStagesBat = batList.collectEntries {
-    ["${it.key}" : createRunBatStage(it.key, it.value)]
-}
+def parallelStagesBat = [:]
+
 pipeline {
     agent { label 'Asil-sv-java6' }
     parameters{
@@ -26,6 +25,15 @@ pipeline {
                     println command
                     retVal = bat (script: command, returnStdout: true)
                     println retVal
+                }
+            }
+        }
+        stage('-- Build runs --'){
+            steps{
+                script{
+                    for (element in batList) {
+                        parallelStagesBat[element.key] = createRunBatStage(element.key, element.value)
+                    }
                 }
             }
         }
