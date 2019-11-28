@@ -4,6 +4,9 @@ def destFolder = ''
 def command = ''
 def retVal = ''
 def batList = ['dshalom': 'TDE-AUT-C1', 'Asil-sv-java6': 'TDE-AUT-C1']
+def parallelStagesMap = batList.collectEntries {
+    ["${it}" : runBat(it.key, it.value)]
+}
 pipeline {
     agent { label 'Asil-sv-java6' }
     parameters{
@@ -37,10 +40,6 @@ pipeline {
             }
         }
     }
-}
-
-def parallelStagesMap = jobs.collectEntries {
-    ["${it}" : runBat(it.key, it.value)]
 }
 
 def runBat(String slave, String sut){
