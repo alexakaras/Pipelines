@@ -37,7 +37,7 @@ pipeline {
                     steps{
                         build job: 'Run_Automation', 
                         parameters: [
-                            $class: 'NodeParameterValue', name: 'SlaveName', value: 'dshalom'
+                            [$class: 'NodeParameterValue', name: 'SlaveName', value: 'dshalom'],
                             string(name: 'SUT', value: '123')
                         ]
                     }
