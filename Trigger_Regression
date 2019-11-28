@@ -52,7 +52,8 @@ def createRunBatStage(String slave, String sut){
             parameters: [
                 [$class: 'NodeParameterValue', name: 'SlaveName', labels: [slave], nodeEligibility: [$class: 'AllNodeEligibility']],
                 string(name: 'SUT', value: sut)
-            ]  
+            ],
+            wait: false
         }
     }
 }
