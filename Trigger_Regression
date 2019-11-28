@@ -50,6 +50,7 @@ pipeline {
     }
 }
 
+@NonCPS
 def createRunBatStage(String slave, String sut){
     return {
         stage('BAT on ${slave}'){
