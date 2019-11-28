@@ -29,22 +29,15 @@ pipeline {
             }
         }
         stage('-- Build runs --'){
-            steps{
-                script{
-                    for (element in batList) {
-                        parallelStagesBat[element.key] = createRunBatStage(element.key, element.value)
-                    }
-                }
-            }
-        }
-        stage('-- Run BAT --'){
             when{
                 expression { retVal.contains('copied') }
             }
             steps{
                 script{
-                    println parallelStagesBat.toString()
-                    //parallel parallelStagesBat
+                    for (element in batList) {
+                        parallelStagesBat[element.key] = createRunBatStage(element.key, element.value)
+                    }
+                    parallel parallelStagesBat
                 }
             }
         }
@@ -55,7 +48,7 @@ pipeline {
 def createRunBatStage(String slave, String sut){
     return {
         stage('BAT on ${slave}'){
-            steps{
+            node{
                 build job: 'Run_Automation', 
                 parameters: [
                     [$class: 'NodeParameterValue', name: 'SlaveName', labels: [slave], nodeEligibility: [$class: 'AllNodeEligibility']],
