@@ -3,7 +3,7 @@ def sourceFolder = ''
 def destFolder = ''
 def command = ''
 def retVal = ''
-def batList = ['dshalom': 'TDE-AUT-C1', 'Asil-sv-java6': 'TDE-AUT-C1']
+def batList = ['dshalom': '123', 'UL-tde6': '123']
 def parallelStagesMap = batList.collectEntries {
     ["${it}" : runBat(it.key, it.value)]
 }
@@ -16,7 +16,7 @@ pipeline {
         string(name: 'TriggerId')
     }
     stages {
-        stage('--Copy Version--') {
+        stage('-- Copy Version --') {
             steps {
                 script{
                     version = params.Version.replace(".","_")
@@ -29,7 +29,7 @@ pipeline {
                 }
             }
         }
-        stage('--Run BAT--'){
+        stage('-- Run BAT --'){
             when{
                 expression { retVal.contains('copied') }
             }
@@ -44,11 +44,13 @@ pipeline {
 
 def runBat(String slave, String sut){
     return {
-        node(slave){
-            build job: 'Run_Automation', 
-            parameters: [
-                string(name: 'SUT', value: sut)
-            ]
+        stage('-- Running BAT on ${slave} --'){
+            node(slave){
+                build job: 'Run_Automation', 
+                parameters: [
+                    string(name: 'SUT', value: sut)
+                ]
+            }
         }
     }
 }
