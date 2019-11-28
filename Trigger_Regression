@@ -5,7 +5,7 @@ def command = ''
 def retVal = ''
 def batList = ['dshalom': '123', 'UL-tde6': '123']
 def parallelStagesBat = batList.collectEntries {
-    ["${it}" : createRunBatStage(it.key, it.value)]
+    ["${it.key}" : createRunBatStage(it.key, it.value)]
 }
 pipeline {
     agent { label 'Asil-sv-java6' }
@@ -33,11 +33,7 @@ pipeline {
             when{
                 expression { retVal.contains('copied') }
             }
-            steps{
-                script {
-                    parallel parallelStagesBat
-                }
-            }
+            parallel parallelStagesBat
         }
     }
 }
