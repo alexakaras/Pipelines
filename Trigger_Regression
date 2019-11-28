@@ -47,7 +47,7 @@ pipeline {
 @NonCPS
 def createRunBatStage(String slave, String sut){
     return {
-        node{
+        node('master'){
             stage('BAT on ${slave}'){
                 steps{
                     build job: 'Run_Automation', 
