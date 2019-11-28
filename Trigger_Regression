@@ -23,17 +23,8 @@ pipeline {
                     destFolder = '\\\\192.168.60.252\\sftp\\upload'
                     command = 'xcopy ' + sourceFolder + '\\*' + version + '* ' + destFolder + ' /syq'
                     println command
-                    retVal = bat (script: command, returnStdout: true)
+                    retVal = 'copied' //bat (script: command, returnStdout: true)
                     println retVal
-                }
-            }
-        }
-        stage('-- Build runs --'){
-            steps{
-                script{
-                    for (element in batList) {
-                        parallelStagesBat[element.key] = createRunBatStage(element.key, element.value)
-                    }
                 }
             }
         }
@@ -42,10 +33,13 @@ pipeline {
                 expression { retVal.contains('copied') }
             }
             steps{
-                parallel{  
-                    parallelStagesBat
+                script{
+                    for (element in batList) {
+                        parallelStagesBat[element.key] = createRunBatStage(element.key, element.value)
+                    }
+                    parallel parallelStagesBat
                 }
-            }  
+            }
         }
     }
 }
