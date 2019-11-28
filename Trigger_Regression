@@ -32,35 +32,14 @@ pipeline {
             when{
                 expression { retVal.contains('copied') }
             }
-            parallel{
-                stage('--${dshalom}--'){
-                    steps{
-                        build job: 'Run_Automation', 
-                        parameters: [
-                            [$class: 'NodeParameterValue', name: 'SlaveName', labels: ['dshalom'], nodeEligibility: [$class: 'AllNodeEligibility']],
-                            string(name: 'SUT', value: '123')
-                        ]
+            steps{
+                script {
+                    for (set in batList) {
+                        parallelStagesBat.add(createRunBatStage(set.key, set.value))
                     }
-                    
-                }
-                stage('--${UL-tde6}--'){
-                    steps{
-                        build job: 'Run_Automation', 
-                        parameters: [
-                            [$class: 'NodeParameterValue', name: 'SlaveName', labels: ['UL-tde6'], nodeEligibility: [$class: 'AllNodeEligibility']],
-                            string(name: 'SUT', value: '123')
-                        ]
-                    }
-                    
+                    parallel parallelStagesBat
                 }
             }
-            // steps{
-            //     script {
-            //         for (set in batList) {
-            //             parallelStagesBat.add(createRunBatStage(set.key, set.value))
-            //         }
-            //     }
-            // }
         }
     }
 }
@@ -68,12 +47,10 @@ pipeline {
 def createRunBatStage(String slave, String sut){
     return {
         stage('--${slave}--'){
-            agent{
-                label slave
-            }
             steps{
                 build job: 'Run_Automation', 
                 parameters: [
+                    [$class: 'NodeParameterValue', name: 'SlaveName', labels: [slave], nodeEligibility: [$class: 'AllNodeEligibility']],
                     string(name: 'SUT', value: sut)
                 ]
             }
