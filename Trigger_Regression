@@ -18,7 +18,8 @@ pipeline {
         stage('-- Copy Version --') {
             steps {
                 script{
-                    version = params.Version.replace(".","_")
+                    version = params.Version
+                    version.replace(".","_")
                     sourceFolder = params.VersionPath
                     destFolder = '\\\\192.168.60.252\\sftp\\upload'
                     command = 'xcopy ' + sourceFolder + '\\*' + version + '* ' + destFolder + ' /syq'
@@ -54,7 +55,7 @@ def createRunBatStage(String slave, String sut){
                 string(name: 'SUT', value: sut),
                 string(name: 'eNodeBVersion', value: params.Version),
                 string(name: 'Scenario', value: 'BAT_testpan'),
-                string(name: 'AdditionalParameters', value: 'SW_Path=/upload/enodeb.' + version + '.enc;SW_Image='+ params.Version)
+                string(name: 'AdditionalParameters', value: 'SW_Under=' + version + ';SW_dots='+ params.Version)
             ],
             wait: false
         }
