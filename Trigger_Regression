@@ -3,7 +3,7 @@ def sourceFolder = ''
 def destFolder = ''
 def command = ''
 def retVal = ''
-def batList = ['dshalom': '123', 'UL-tde6' : '456']
+def batList = ['dshalom': '123', 'SWIT-38': 'SUT17_AH1000Plus_Testpan.xml']
 def parallelStagesBat = [:]
 
 pipeline {
@@ -55,7 +55,7 @@ def createRunBatStage(String slave, String sut){
                 string(name: 'SUT', value: sut),
                 string(name: 'eNodeBVersion', value: params.Version),
                 string(name: 'Scenario', value: 'BAT_testpan'),
-                string(name: 'AdditionalParameters', value: 'SW_Under=' + version + ';SW_dots='+ params.Version)
+                string(name: 'AdditionalParameters', value: 'SW_Under=' + version + ';SW_Dots='+ params.Version)
             ],
             wait: false
         }
