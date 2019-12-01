@@ -55,6 +55,7 @@ def createRunBatStage(String slave, String sut){
                 string(name: 'SUT', value: sut),
                 string(name: 'eNodeBVersion', value: params.Version),
                 string(name: 'Scenario', value: 'BAT_testpan'),
+                string(name: 'BuildName', value: 'BAT_testpan_' + slave),
                 string(name: 'AdditionalParameters', value: 'SW_Under=' + version + ';SW_Dots='+ params.Version)
             ],
             wait: false
