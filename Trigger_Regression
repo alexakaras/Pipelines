@@ -29,7 +29,7 @@ pipeline {
                 }
             }
         }
-        stage('-- Run BAT --'){
+        /*stage('-- Run BAT --'){
             when{
                 expression { retVal.contains('copied') }
             }
@@ -41,7 +41,7 @@ pipeline {
                     parallel parallelStagesBat
                 }
             }
-        }
+        }*/
     }
 }
 
