@@ -3,7 +3,7 @@ def sourceFolder = ''
 def destFolder = ''
 def command = ''
 def retVal = ''
-def batList = ['dshalom': '123', 'SWIT-38': 'SUT17_AH1000Plus_Testpan.xml']
+def batList = ['SWIT-38': 'SUT17_AH1000Plus_Testpan.xml']
 def parallelStagesBat = [:]
 
 pipeline {
