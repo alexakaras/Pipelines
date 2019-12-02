@@ -17,8 +17,7 @@ pipeline {
     stages {
         stage('-- Copy Version --') {
             steps {
-                println 'test'
-                /*script{
+                script{
                     version = params.Version
                     version.replace(".","_")
                     sourceFolder = params.VersionPath
@@ -27,10 +26,10 @@ pipeline {
                     println command
                     retVal = bat (script: command, returnStdout: true)
                     println retVal
-                }*/
+                }
             }
         }
-        /*stage('-- Run BAT --'){
+        stage('-- Run BAT --'){
             when{
                 expression { retVal.contains('copied') }
             }
@@ -42,11 +41,11 @@ pipeline {
                     parallel parallelStagesBat
                 }
             }
-        }*/
+        }
     }
 }
 
-/*@NonCPS
+@NonCPS
 def createRunBatStage(String slave, String sut){
     return {
         stage('BAT on ' + slave){
@@ -62,4 +61,4 @@ def createRunBatStage(String slave, String sut){
             wait: false
         }
     }
-}*/
+}
